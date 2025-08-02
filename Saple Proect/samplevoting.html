@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Voting Machine</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+
+    .candidate {
+      margin: 10px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      cursor: pointer;
+    }
+
+    #result {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+<div id="candidates">
+  <div class="candidate" onclick="vote('candidate1')">Saroj Dhakal</div>
+  <div class="candidate" onclick="vote('candidate2')">Hari Khakda</div>
+  <div class="candidate" onclick="vote('candidate3')">Ram Sharma</div>
+  <div class="candidate" onclick="vote('candidate4')">Hari Khakda</div>
+  <div class="candidate" onclick="vote('candidate5')">Hari Khakda</div>
+  <div class="candidate" onclick="vote('candidate6')">Hari Khakda</div>
+  <div class="candidate" onclick="vote('candidate7')">Hari Khakda</div>
+
+</div>
+
+<button onclick="showResults()">Show Results</button>
+
+<div id="result"></div>
+
+<script>
+  // Candidate objects with name and initial vote count
+  const candidates = {
+    candidate1: { name: 'Candidate 1', votes: 0 },
+    candidate2: { name: 'Candidate 2', votes: 0 },
+    candidate3: { name: 'Candidate 3', votes: 0 },
+    candidate1: { name: 'Candidate 4', votes: 0 },
+    candidate2: { name: 'Candidate 5', votes: 0 },
+    candidate3: { name: 'Candidate 6', votes: 0 },
+    candidate3: { name: 'Candidate 7', votes: 0 }
+    
+  };
+
+  function vote(candidate) {
+    candidates[candidate].votes++;
+    alert(`You voted for ${candidates[candidate].name}!`);
+  }
+
+  function showResults() {
+    const resultDiv = document.getElementById('result');
+    resultDiv.innerHTML = '<h2>Vote Results</h2>';
+
+    for (const candidate in candidates) {
+      const candidateObj = candidates[candidate];
+      const candidateResult = `${candidateObj.name}: ${candidateObj.votes} votes`;
+      const resultParagraph = document.createElement('p');
+      resultParagraph.textContent = candidateResult;
+      resultDiv.appendChild(resultParagraph);
+    }
+  }
+</script>
+
+</body>
+</html>
