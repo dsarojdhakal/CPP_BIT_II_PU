@@ -14,10 +14,15 @@ private:
     float salary;
 
 public:
+    void setId(int newId) {
+        id = newId;
+    }
+
+    int getId() const {
+        return id;
+    }
+
     void InputData() {
-        cout << "Enter Employee ID: ";
-        cin >> id;
-        cin.ignore();
         cout << "Enter Name: ";
         cin.getline(name, 30);
         cout << "Enter Phone Number: ";
@@ -34,11 +39,6 @@ public:
     void DisplayData() const {
         cout << id << "\t" << name << "\t" << phone << "\t" << email << "\t" << address << "\t" << salary << endl;
     }
-
-    int getId() const {
-        return id;
-    }
-
 };
 
 void ClearScreen() {
@@ -48,10 +48,11 @@ void ClearScreen() {
 void AddNewRecord() {
     int check_id;
     bool duplicate = false;
-    Employee emp;
     ClearScreen();
-    emp.InputData();
-    check_id = emp.getId();
+    cout << "Enter Employee ID: ";
+    cin >> check_id;
+    cin.ignore();
+
     ifstream inFile("employee.dat", ios::binary);
     if (!inFile) {
         cerr << "Error: Could not open file for reading. Assuming no existing records.\n";
@@ -65,17 +66,24 @@ void AddNewRecord() {
         }
         inFile.close();
     }
-    if (!duplicate) {
-        ofstream outFile("employee.dat", ios::binary | ios::app);
-        if (!outFile) {
-            cerr << "Error: Could not open file for writing." << endl;
-            return;
-        }
-        outFile.write((char *)&emp, sizeof(emp));
-        outFile.close();
-    } else {
-        cout << "Duplicate ID found. Record not added.\n";
+
+    if (duplicate) {
+        cout << "Duplicate ID detected. Please enter a valid ID.\n";
+        return;
     }
+
+    Employee emp;
+    emp.setId(check_id);
+    emp.InputData();
+
+    ofstream outFile("employee.dat", ios::binary | ios::app);
+    if (!outFile) {
+        cerr << "Error: Could not open file for writing." << endl;
+        return;
+    }
+    outFile.write((char *)&emp, sizeof(emp));
+    outFile.close();
+    cout << "Record added successfully.\n";
 }
 
 void DisplayFileRecords() {
@@ -94,11 +102,9 @@ void DisplayFileRecords() {
 }
 
 void UpdateRecord() {
-//write your code here.
 }
 
 void DeleteRecord() {
-   //write your code here.
 }
 
 bool Login() {
@@ -145,7 +151,6 @@ void MainMenu() {
                 DeleteRecord();
                 break;
             case 5:
-               //call requird  function.
                 break;
             case 6:
                 cout << "Exiting the program.\n";
